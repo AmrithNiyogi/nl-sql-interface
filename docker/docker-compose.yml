@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: chinookdb
+    volumes:
+      - ./data:/data
+    ports:
+      - "5432:5432"
+  frontend:
+    build: ./frontend
+    ports:
+      - "7860:7860"   # Port for Gradio or React app
