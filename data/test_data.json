@@ -1,0 +1,198 @@
+[
+  {
+    "question": "List all customers from Canada.",
+    "sql": "SELECT * FROM customers WHERE country = 'Canada';"
+  },
+  {
+    "question": "Show all albums by AC/DC.",
+    "sql": "SELECT * FROM albums WHERE artist_id = (SELECT artist_id FROM artists WHERE name = 'AC/DC');"
+  },
+  {
+    "question": "How many customers are from Brazil?",
+    "sql": "SELECT COUNT(*) FROM customers WHERE country = 'Brazil';"
+  },
+  {
+    "question": "List all employees with the title 'Sales Support Agent'.",
+    "sql": "SELECT * FROM employees WHERE title = 'Sales Support Agent';"
+  },
+  {
+    "question": "What is the email of the customer named 'Mark Philips'?",
+    "sql": "SELECT email FROM customers WHERE first_name = 'Mark' AND last_name = 'Philips';"
+  },
+  {
+    "question": "Show all invoices from 2009.",
+    "sql": "SELECT * FROM invoices WHERE invoice_date BETWEEN '2009-01-01' AND '2009-12-31';"
+  },
+  {
+    "question": "List all unique countries where customers live.",
+    "sql": "SELECT DISTINCT country FROM customers;"
+  },
+  {
+    "question": "Find the top 5 customers who spent the most.",
+    "sql": "SELECT customer_id, SUM(total) AS amount_spent FROM invoices GROUP BY customer_id ORDER BY amount_spent DESC LIMIT 5;"
+  },
+  {
+    "question": "What is the total number of invoices?",
+    "sql": "SELECT COUNT(*) FROM invoices;"
+  },
+  {
+    "question": "List all rock music tracks.",
+    "sql": "SELECT * FROM tracks WHERE genre_id = (SELECT genre_id FROM genres WHERE name = 'Rock');"
+  },
+  {
+    "question": "Find all tracks that cost more than $0.99.",
+    "sql": "SELECT * FROM tracks WHERE unit_price > 0.99;"
+  },
+  {
+    "question": "List the names of all playlists.",
+    "sql": "SELECT name FROM playlists;"
+  },
+  {
+    "question": "Show all invoices for customer ID 5.",
+    "sql": "SELECT * FROM invoices WHERE customer_id = 5;"
+  },
+  {
+    "question": "Find the invoice with the highest total.",
+    "sql": "SELECT * FROM invoices ORDER BY total DESC LIMIT 1;"
+  },
+  {
+    "question": "How many tracks are in the 'Rock' genre?",
+    "sql": "SELECT COUNT(*) FROM tracks WHERE genre_id = (SELECT genre_id FROM genres WHERE name = 'Rock');"
+  },
+  {
+    "question": "What is the average unit price of all tracks?",
+    "sql": "SELECT AVG(unit_price) FROM tracks;"
+  },
+  {
+    "question": "List all customers and their support representative's name.",
+    "sql": "SELECT c.first_name, c.last_name, e.first_name AS rep_first, e.last_name AS rep_last FROM customers c JOIN employees e ON c.support_rep_id = e.employee_id;"
+  },
+  {
+    "question": "Find all customers from the city of Paris.",
+    "sql": "SELECT * FROM customers WHERE city = 'Paris';"
+  },
+  {
+    "question": "List all employees hired after 2004.",
+    "sql": "SELECT * FROM employees WHERE hire_date > '2004-01-01';"
+  },
+  {
+    "question": "Get the number of tracks in each album.",
+    "sql": "SELECT album_id, COUNT(*) AS track_count FROM tracks GROUP BY album_id;"
+  },
+  {
+    "question": "Which genres have more than 100 tracks?",
+    "sql": "SELECT genre_id FROM tracks GROUP BY genre_id HAVING COUNT(*) > 100;"
+  },
+  {
+    "question": "List all artists whose name starts with 'A'.",
+    "sql": "SELECT * FROM artists WHERE name LIKE 'A%';"
+  },
+  {
+    "question": "What is the total number of tracks?",
+    "sql": "SELECT COUNT(*) FROM tracks;"
+  },
+  {
+    "question": "List the names of all customers and their countries.",
+    "sql": "SELECT first_name, last_name, country FROM customers;"
+  },
+  {
+    "question": "Find all tracks that are longer than 5 minutes.",
+    "sql": "SELECT * FROM tracks WHERE milliseconds > 300000;"
+  },
+  {
+    "question": "Get the names of tracks in the 'Grunge' genre.",
+    "sql": "SELECT name FROM tracks WHERE genre_id = (SELECT genre_id FROM genres WHERE name = 'Grunge');"
+  },
+  {
+    "question": "Show the 10 most expensive tracks.",
+    "sql": "SELECT * FROM tracks ORDER BY unit_price DESC LIMIT 10;"
+  },
+  {
+    "question": "List customers who live in Germany or France.",
+    "sql": "SELECT * FROM customers WHERE country IN ('Germany', 'France');"
+  },
+  {
+    "question": "Get the average total of all invoices.",
+    "sql": "SELECT AVG(total) FROM invoices;"
+  },
+  {
+    "question": "Which albums contain the track 'Smells Like Teen Spirit'?",
+    "sql": "SELECT album_id FROM tracks WHERE name = 'Smells Like Teen Spirit';"
+  },
+  {
+    "question": "List the top 3 most common billing cities.",
+    "sql": "SELECT billing_city, COUNT(*) AS freq FROM invoices GROUP BY billing_city ORDER BY freq DESC LIMIT 3;"
+  },
+  {
+    "question": "Find the name of the artist with artist_id 10.",
+    "sql": "SELECT name FROM artists WHERE artist_id = 10;"
+  },
+  {
+    "question": "What is the total duration of all tracks in seconds?",
+    "sql": "SELECT SUM(milliseconds)/1000 AS total_seconds FROM tracks;"
+  },
+  {
+    "question": "Get the number of employees in each job title.",
+    "sql": "SELECT title, COUNT(*) FROM employees GROUP BY title;"
+  },
+  {
+    "question": "Show the details of all invoices billed to Paris.",
+    "sql": "SELECT * FROM invoices WHERE billing_city = 'Paris';"
+  },
+  {
+    "question": "Which customers have the same last name?",
+    "sql": "SELECT last_name, COUNT(*) FROM customers GROUP BY last_name HAVING COUNT(*) > 1;"
+  },
+  {
+    "question": "List all tracks that belong to the album 'Back in Black'.",
+    "sql": "SELECT * FROM tracks WHERE album_id = (SELECT album_id FROM albums WHERE title = 'Back in Black');"
+  },
+  {
+    "question": "Which artists have more than 5 albums?",
+    "sql": "SELECT artist_id FROM albums GROUP BY artist_id HAVING COUNT(*) > 5;"
+  },
+  {
+    "question": "Find all invoices with totals between 5 and 10.",
+    "sql": "SELECT * FROM invoices WHERE total BETWEEN 5 AND 10;"
+  },
+  {
+    "question": "Get all tracks that are 'MPEG audio file' type.",
+    "sql": "SELECT * FROM tracks WHERE media_type_id = (SELECT media_type_id FROM media_types WHERE name = 'MPEG audio file');"
+  },
+  {
+    "question": "List all tracks in playlist ID 1.",
+    "sql": "SELECT t.* FROM playlist_track pt JOIN tracks t ON pt.track_id = t.track_id WHERE pt.playlist_id = 1;"
+  },
+  {
+    "question": "Find the longest track by duration.",
+    "sql": "SELECT * FROM tracks ORDER BY milliseconds DESC LIMIT 1;"
+  },
+  {
+    "question": "What is the total amount spent by customer 10?",
+    "sql": "SELECT SUM(total) FROM invoices WHERE customer_id = 10;"
+  },
+  {
+    "question": "Which countries have more than 10 customers?",
+    "sql": "SELECT country, COUNT(*) FROM customers GROUP BY country HAVING COUNT(*) > 10;"
+  },
+  {
+    "question": "List all employees who report to manager 2.",
+    "sql": "SELECT * FROM employees WHERE reports_to = 2;"
+  },
+  {
+    "question": "Which playlists contain more than 50 tracks?",
+    "sql": "SELECT playlist_id, COUNT(*) FROM playlist_track GROUP BY playlist_id HAVING COUNT(*) > 50;"
+  },
+  {
+    "question": "Show the email of all customers from Brazil.",
+    "sql": "SELECT email FROM customers WHERE country = 'Brazil';"
+  },
+  {
+    "question": "Get all albums released by artist 'Queen'.",
+    "sql": "SELECT * FROM albums WHERE artist_id = (SELECT artist_id FROM artists WHERE name = 'Queen');"
+  },
+  {
+    "question": "Which invoices were created in July 2010?",
+    "sql": "SELECT * FROM invoices WHERE invoice_date BETWEEN '2010-07-01' AND '2010-07-31';"
+  }
+]

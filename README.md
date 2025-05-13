@@ -4,7 +4,7 @@
 
 ## Overview
 - This project provides an AI Powered assistant that converts natural language queries into SQL to interact with business databases like PostgreSQl or BigQuery.
-- It uses Langchain, Haystack, and Llama 2 (or gemini 1.5) for query generation and explanation.
+- It uses Langchain, Haystack, and GPT-Neo (can be used with Llama 2 or gemini 1.5) for query generation and explanation.
 
 ---
 

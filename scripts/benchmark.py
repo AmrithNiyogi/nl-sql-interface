@@ -1,26 +1,58 @@
-from sklearn.metrics import accuracy_score
-import pandas as pd
+import json
+import argparse
+from typing import List, Tuple
+from pipeline import run_query_pipeline
+from database import execute_query
 
-# Load a dataset of NL questions and expected SQL answers (you'll create this)
-data = pd.read_csv('sql_benchmark.csv')
+def load_test_data(file_path: str) -> List[Tuple[str, str]]:
+    """Load NL-SQL pairs from a JSON file."""
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return [(item["question"], item["sql"]) for item in data]
 
+def normalize_sql(sql: str) -> str:
+    """Normalize SQL for comparison (basic)"""
+    # Using regular expressions to handle multiple spaces and inconsistent formatting better.
+    import re
+    sql = sql.strip().lower()
+    sql = re.sub(r'\s+', ' ', sql)  # Replace multiple spaces with a single space
+    sql = sql.replace(";", "")  # Remove semicolons
+    return sql
 
-def evaluate_sql_generation(model, data):
-    predictions = []
-    for query in data['nl_query']:
-        sql = model.generate_sql(query)
-        predictions.append(sql)
+def evaluate(test_data: List[Tuple[str, str]], execute=False) -> None:
+    total = len(test_data)
+    exact_match = 0
+    exec_correct = 0
 
-    accuracy = accuracy_score(data['sql_answer'], predictions)
-    return accuracy
+    for i, (question, gold_sql) in enumerate(test_data):
+        print(f"\n[{i+1}] Question: {question}")
+        pred_sql = run_query_pipeline(question)
+        print(f"Predicted SQL: {pred_sql}")
+        print(f"Expected SQL:  {gold_sql}")
 
+        # Exact Match Evaluation
+        if normalize_sql(pred_sql) == normalize_sql(gold_sql):
+            exact_match += 1
+            print("Exact Match ✅")
+        else:
+            print("Exact Match ❌")
 
-# Placeholder model
-class MockModel:
-    def generate_sql(self, query):
-        return "SELECT * FROM table WHERE condition"
+        # Execution Match Evaluation
+        if execute:
+            try:
+                gold_res = execute_query(gold_sql)
+                pred_res = execute_query(pred_sql)
+                if gold_res == pred_res:
+                    exec_correct += 1
+                    print("Execution Match ✅")
+                else:
+                    print("Execution Match ❌")
+            except Exception as e:
+                print(f"Execution Error: {e}")
 
-
-model = MockModel()
-accuracy = evaluate_sql_generation(model, data)
-print(f"SQL generation accuracy: {accuracy}")
+    # Final Summary
+    print("\n📊 Benchmark Summary:")
+    print(f"Total Samples:       {total}")
+    print(f"Exact Match Accuracy: {exact_match}/{total} = {exact_match / total:.2%}")
+    if execute:
+        print(f"Execution Accuracy:   {exec_correct}/{total} = {exec_correct / total:.2%}")
